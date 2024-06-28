@@ -1,14 +1,16 @@
 import express from "express";
+import { handleHelloWord, handleUserPage } from "../controllers/homeController";
 
 const router = express.Router();
 /**
  *
  * @param {*} app : express app
  */
+
 const initWebRoutes = (app) => {
-  router.get("/", (req, res) => {
-    return res.send("Hello world!");
-  });
+  // path, handler
+  router.get("/", handleHelloWord);
+  router.get("/user", handleUserPage);
   return app.use("/", router);
 };
 
