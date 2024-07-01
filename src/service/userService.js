@@ -1,5 +1,14 @@
 import bcrypt from "bcryptjs";
 import mysql from "mysql2/promise";
+import bluebird from "bluebird";
+
+// create the connection, specify bluebird as Promise
+// const connection = await mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   database: "jwt",
+//   Promise: bluebird,
+// });
 
 let connection = "";
 // Create the connection to database
@@ -9,6 +18,7 @@ let connection = "";
       host: "localhost",
       user: "root",
       database: "jwt",
+      Promise: bluebird,
     });
     console.log("Database connected successfully");
   } catch (error) {
@@ -26,18 +36,7 @@ const hashUserPassword = (userPassword) => {
 
 const createNewUser = async (email, password, username) => {
   let hashPass = hashUserPassword(password);
-
-  //   connection.query(
-  //     "INSERT INTO users (email, password, username) VALUES (?, ?, ?)",
-  //     [email, hashPass, username],
-  //     function (err, results, fields) {
-  //       if (err) {
-  //         console.log(err);
-  //       }
-  //     }
-  //   );
   try {
-    // Parameterized query to prevent SQL injection
     const [results, fields] = await connection.query(
       "INSERT INTO users (email, password, username) VALUES (?, ?, ?)",
       [email, hashPass, username]
@@ -50,16 +49,12 @@ const createNewUser = async (email, password, username) => {
 };
 
 const getUserList = async () => {
-  let users = [];
-
   try {
-    // Parameterized query to prevent SQL injection
-    const [results, fields] = await connection.query("SELECT * FROM users");
-    console.log("Select successfully!");
-    console.log(results); // results contains rows returned by server
+    const [results, fields] = await connection.execute("SELECT * FROM users");
+    // console.log(results); // results contains rows returned by server
+    return results;
   } catch (err) {
-    console.log("Failed to select user");
-    console.log(err);
+    console.log("Failed to select user", err);
   }
 };
 
