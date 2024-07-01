@@ -5,12 +5,17 @@ import initWebRoutes from "./routes/web";
 // require("dotenv").config();
 // ver ES6
 import "dotenv/config";
+import bodyParser from "body-parser";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 // config view engine
 configViewEngine(app);
+
+// config body parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // init web routes
 initWebRoutes(app);
