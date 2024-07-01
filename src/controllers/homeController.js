@@ -1,4 +1,10 @@
-import { createNewUser, deleteUser, getUserList } from "../service/userService";
+import {
+  createNewUser,
+  deleteUser,
+  getUserById,
+  getUserList,
+  updateUserInfor,
+} from "../service/userService";
 
 const handleHelloWord = (req, res) => {
   return res.render("home.ejs");
@@ -27,9 +33,32 @@ const handleDeleteUser = async (req, res) => {
   return res.redirect("/user");
 };
 
+const getUpdateUserPage = async (req, res) => {
+  let id = req.params.id;
+  let user = await getUserById(id);
+  let userData = {};
+  if (user && user.length > 0) {
+    userData = user[0];
+  }
+  // console.log("Check user", user);
+  return res.render("user-update.ejs", { userData });
+};
+
+const handleUpdateUser = async (req, res) => {
+  let email = req.body.email;
+  let username = req.body.username;
+  let id = req.body.id;
+
+  await updateUserInfor(email, username, id);
+
+  return res.redirect("/user");
+};
+
 module.exports = {
   handleHelloWord,
   handleUserPage,
   handleCreateNewUser,
   handleDeleteUser,
+  handleUpdateUser,
+  getUpdateUserPage,
 };
