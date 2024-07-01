@@ -1,5 +1,9 @@
 import express from "express";
-import { handleHelloWord, handleUserPage } from "../controllers/homeController";
+import {
+  handleCreateNewUser,
+  handleHelloWord,
+  handleUserPage,
+} from "../controllers/homeController";
 
 const router = express.Router();
 /**
@@ -11,6 +15,7 @@ const initWebRoutes = (app) => {
   // path, handler
   router.get("/", handleHelloWord);
   router.get("/user", handleUserPage);
+  router.post("/users/create-user", handleCreateNewUser);
   return app.use("/", router);
 };
 
