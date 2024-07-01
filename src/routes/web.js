@@ -3,6 +3,7 @@ import {
   handleCreateNewUser,
   handleHelloWord,
   handleUserPage,
+  handleDeleteUser,
 } from "../controllers/homeController";
 
 const router = express.Router();
@@ -16,6 +17,7 @@ const initWebRoutes = (app) => {
   router.get("/", handleHelloWord);
   router.get("/user", handleUserPage);
   router.post("/users/create-user", handleCreateNewUser);
+  router.post("/delete-user/:id", handleDeleteUser);
   return app.use("/", router);
 };
 

@@ -1,4 +1,4 @@
-import { createNewUser, getUserList } from "../service/userService";
+import { createNewUser, deleteUser, getUserList } from "../service/userService";
 
 const handleHelloWord = (req, res) => {
   return res.render("home.ejs");
@@ -18,12 +18,18 @@ const handleCreateNewUser = (req, res) => {
 
   createNewUser(email, password, username);
   // console.log(">>Check request", req.body);
+  return res.redirect("/user");
+};
 
-  return res.send("handleNewUser");
+const handleDeleteUser = async (req, res) => {
+  // console.log("Check id: ", req.params.id);
+  await deleteUser(req.params.id);
+  return res.redirect("/user");
 };
 
 module.exports = {
   handleHelloWord,
   handleUserPage,
   handleCreateNewUser,
+  handleDeleteUser,
 };

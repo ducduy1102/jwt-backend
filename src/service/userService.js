@@ -2,16 +2,8 @@ import bcrypt from "bcryptjs";
 import mysql from "mysql2/promise";
 import bluebird from "bluebird";
 
-// create the connection, specify bluebird as Promise
-// const connection = await mysql.createConnection({
-//   host: "localhost",
-//   user: "root",
-//   database: "jwt",
-//   Promise: bluebird,
-// });
-
 let connection = "";
-// Create the connection to database
+// Create the connection to database, specify bluebird as Promise
 (async () => {
   try {
     connection = await mysql.createConnection({
@@ -30,21 +22,20 @@ const salt = bcrypt.genSaltSync(10);
 
 const hashUserPassword = (userPassword) => {
   let hashPassword = bcrypt.hashSync(userPassword, salt);
-  console.log("Check hash password", hashPassword);
+  //   console.log("Check hash password", hashPassword);
   return hashPassword;
 };
 
 const createNewUser = async (email, password, username) => {
   let hashPass = hashUserPassword(password);
   try {
-    const [results, fields] = await connection.query(
+    await connection.execute(
       "INSERT INTO users (email, password, username) VALUES (?, ?, ?)",
       [email, hashPass, username]
     );
     console.log("User created successfully");
   } catch (err) {
-    console.log(err);
-    console.log("Failed to create user");
+    console.log("Failed to create user", err);
   }
 };
 
@@ -58,4 +49,16 @@ const getUserList = async () => {
   }
 };
 
-export { createNewUser, getUserList };
+const deleteUser = async (id) => {
+  try {
+    const [results, fields] = await connection.execute(
+      "DELETE FROM users WHERE id = ?",
+      [id]
+    );
+    return results;
+  } catch (err) {
+    console.log("Failed to select user", err);
+  }
+};
+
+export { createNewUser, getUserList, deleteUser };
