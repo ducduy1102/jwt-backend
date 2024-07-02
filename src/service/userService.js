@@ -1,66 +1,57 @@
 import bcrypt from "bcryptjs";
-import mysql from "mysql2/promise";
-
-let connection = "";
-// Create the connection to database
-(async () => {
-  try {
-    connection = await mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      database: "jwt",
-    });
-    console.log("Database connected successfully");
-  } catch (error) {
-    console.error("Database connection failed:", error);
-  }
-})();
+import db from "../models/index";
 
 const salt = bcrypt.genSaltSync(10);
 
 const hashUserPassword = (userPassword) => {
   let hashPassword = bcrypt.hashSync(userPassword, salt);
-  console.log("Check hash password", hashPassword);
+  //   console.log("Check hash password", hashPassword);
   return hashPassword;
 };
 
 const createNewUser = async (email, password, username) => {
   let hashPass = hashUserPassword(password);
-
-  //   connection.query(
-  //     "INSERT INTO users (email, password, username) VALUES (?, ?, ?)",
-  //     [email, hashPass, username],
-  //     function (err, results, fields) {
-  //       if (err) {
-  //         console.log(err);
-  //       }
-  //     }
-  //   );
   try {
-    // Parameterized query to prevent SQL injection
-    const [results, fields] = await connection.query(
-      "INSERT INTO users (email, password, username) VALUES (?, ?, ?)",
-      [email, hashPass, username]
-    );
+    await db.User.create({
+      username: username,
+      email: email,
+      password: hashPass,
+    });
     console.log("User created successfully");
   } catch (err) {
-    console.log(err);
-    console.log("Failed to create user");
+    console.log("Failed to create user", err);
   }
 };
 
 const getUserList = async () => {
   let users = [];
+  users = await db.User.findAll();
 
-  try {
-    // Parameterized query to prevent SQL injection
-    const [results, fields] = await connection.query("SELECT * FROM users");
-    console.log("Select successfully!");
-    console.log(results); // results contains rows returned by server
-  } catch (err) {
-    console.log("Failed to select user");
-    console.log(err);
-  }
+  return users;
 };
 
-export { createNewUser, getUserList };
+const deleteUser = async (userId) => {
+  await db.User.destroy({
+    where: {
+      id: userId,
+    },
+  });
+};
+
+const getUserById = async (id) => {
+  let user = {};
+  user = await db.User.findOne({ where: { id: id } });
+  return user.get({ plain: true });
+};
+
+const updateUserInfor = async (email, username, id) => {
+  await db.User.update(
+    { email: email, username: username },
+    {
+      where: {
+        id: id,
+      },
+    }
+  );
+};
+export { createNewUser, getUserList, deleteUser, getUserById, updateUserInfor };

@@ -1,14 +1,18 @@
 import express from "express";
-import configViewEngine from "./configs/viewEngine";
+import configViewEngine from "./config/viewEngine";
 import initWebRoutes from "./routes/web";
 // ver before ES6
 // require("dotenv").config();
 // ver ES6
 import "dotenv/config";
 import bodyParser from "body-parser";
+// import connection from "./config/connectDB";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+// Test connection db
+// connection();
 
 // config view engine
 configViewEngine(app);
