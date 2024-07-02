@@ -15,17 +15,17 @@ module.exports = {
       "User",
       [
         {
-          email: "John Doe",
+          email: "fake1@gmail.com",
           password: "123456",
           username: "Fake 1",
         },
         {
-          email: "John Doe 2",
+          email: "fake2@gmail.com",
           password: "123456",
           username: "Fake 2",
         },
         {
-          email: "John Doe 3",
+          email: "fake3@gmail.com",
           password: "123456",
           username: "Fake 3",
         },
