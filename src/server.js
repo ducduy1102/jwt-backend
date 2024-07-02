@@ -6,9 +6,13 @@ import initWebRoutes from "./routes/web";
 // ver ES6
 import "dotenv/config";
 import bodyParser from "body-parser";
+// import connection from "./config/connectDB";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+// Test connection db
+// connection();
 
 // config view engine
 configViewEngine(app);
