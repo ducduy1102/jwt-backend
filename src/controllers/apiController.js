@@ -5,4 +5,8 @@ const testApi = (req, res) => {
   });
 };
 
-export { testApi };
+const handleRegister = (req, res) => {
+  console.log("call me", req.body);
+};
+
+export { testApi, handleRegister };
