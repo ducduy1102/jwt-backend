@@ -1,5 +1,9 @@
 import express from "express";
-import { handleRegister, testApi } from "../controllers/apiController";
+import {
+  handleRegister,
+  handleLogin,
+  testApi,
+} from "../controllers/apiController";
 
 const router = express.Router();
 
@@ -13,6 +17,7 @@ const initApiRoutes = (app) => {
   // rest API
   router.get("/test-api", testApi);
   router.post("/register", handleRegister);
+  router.post("/login", handleLogin);
 
   return app.use("/api/v1/", router);
 };
