@@ -15,7 +15,7 @@ const handleRegister = async (req, res) => {
     if (!req.body.email || !req.body.phone || !req.body.password) {
       return res.status(200).json({
         message: "Missing required parameters",
-        errorCode: -1,
+        errorCode: 1,
         data: "",
       });
     }
@@ -23,7 +23,7 @@ const handleRegister = async (req, res) => {
     if (req.body.password && req.body.password.length < 6) {
       return res.status(200).json({
         message: "Password is at least 6 characters",
-        errorCode: -1,
+        errorCode: 1,
         data: "",
       });
     }

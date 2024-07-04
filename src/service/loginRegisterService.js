@@ -36,14 +36,14 @@ const registerNewUser = async (rawUserData) => {
     let isEmailExist = await checkEmailExist(rawUserData.email);
     if (isEmailExist === true)
       return {
-        message: "Email already exists",
+        message: "Email is already exists",
         errorCode: 1,
       };
 
     let isPhoneExist = await checkPhoneExist(rawUserData.phone);
     if (isPhoneExist === true)
       return {
-        message: "Phone number already exists",
+        message: "Phone number is already exists",
         errorCode: 1,
       };
 
