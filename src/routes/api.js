@@ -6,8 +6,8 @@ import {
 } from "../controllers/apiController";
 import {
   createUser,
-  deleteUser,
-  readUser,
+  deleteUserController,
+  readUserController,
   updateUser,
 } from "../controllers/userController";
 
@@ -26,10 +26,10 @@ const initApiRoutes = (app) => {
   router.post("/login", handleLogin);
 
   // CRUD user
-  router.get("/user/read", readUser);
+  router.get("/user/read", readUserController);
   router.post("/user/create", createUser);
   router.put("/user/update", updateUser);
-  router.delete("/user/delete", deleteUser);
+  router.delete("/user/delete", deleteUserController);
 
   return app.use("/api/v1/", router);
 };

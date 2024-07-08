@@ -34,6 +34,8 @@ const getUserWithPagination = async (page, limit) => {
     const { count, rows } = await db.User.findAndCountAll({
       offset: offset,
       limit: limit,
+      attributes: ["id", "username", "email", "phone", "sex"],
+      include: { model: db.Group, attributes: ["name", "description"] },
     });
 
     let totalPages = Math.ceil(count / limit);
@@ -49,7 +51,7 @@ const getUserWithPagination = async (page, limit) => {
     //   "page = ",
     //   page
     // );
-    let data = {
+    let dataPages = {
       totalRows: count,
       totalPages: totalPages,
       users: rows,
@@ -59,7 +61,7 @@ const getUserWithPagination = async (page, limit) => {
     return {
       message: "Get data success",
       errorCode: 0,
-      data: data,
+      data: dataPages,
     };
   } catch (error) {
     console.log(error);
@@ -99,11 +101,37 @@ const updateUser = async (data) => {
 
 const deleteUser = async (id) => {
   try {
-    await db.User.delete({
-      where: { id: id },
+    // C1
+    await db.User.destroy({
+      where: {
+        id: id,
+      },
     });
+
+    // C2
+    // let user = await db.User.findOne({
+    //   where: { id: id },
+    // });
+    // if (!user) {
+    //   return {
+    //     message: "User not exist",
+    //     errorCode: 2,
+    //     data: [],
+    //   };
+    // }
+    // await user.destroy();
+    return {
+      message: "Delete user successfully!",
+      errorCode: 0,
+      data: [],
+    };
   } catch (error) {
     console.log(error);
+    return {
+      message: "Something wrongs with server",
+      errorCode: 1,
+      data: [],
+    };
   }
 };
 
@@ -111,6 +139,6 @@ export {
   getAllUser,
   createNewUser,
   updateUser,
-  deleteUser,
   getUserWithPagination,
+  deleteUser,
 };

@@ -1,6 +1,10 @@
-import { getAllUser, getUserWithPagination } from "../service/userApiService";
+import {
+  getAllUser,
+  getUserWithPagination,
+  deleteUser,
+} from "../service/userApiService";
 
-const readUser = async (req, res) => {
+const readUserController = async (req, res) => {
   try {
     if (req.query.page & req.query.limit) {
       let page = req.query.page;
@@ -57,8 +61,14 @@ const updateUser = (req, res) => {
   }
 };
 
-const deleteUser = (req, res) => {
+const deleteUserController = async (req, res) => {
   try {
+    let data = await deleteUser(req.body.id);
+    return res.status(200).json({
+      message: data.message,
+      errorCode: data.errorCode,
+      data: data.data,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -69,4 +79,4 @@ const deleteUser = (req, res) => {
   }
 };
 
-export { readUser, createUser, updateUser, deleteUser };
+export { readUserController, createUser, updateUser, deleteUserController };
