@@ -9,7 +9,7 @@ import {
   deleteUser,
   readUser,
   updateUser,
-} from "../controllers/useController";
+} from "../controllers/userController";
 
 const router = express.Router();
 
