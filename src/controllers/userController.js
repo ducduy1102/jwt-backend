@@ -37,7 +37,7 @@ const readUserController = async (req, res) => {
   }
 };
 
-const createUser = (req, res) => {
+const createUserController = (req, res) => {
   try {
   } catch (error) {
     console.log(error);
@@ -49,7 +49,7 @@ const createUser = (req, res) => {
   }
 };
 
-const updateUser = (req, res) => {
+const updateUserController = (req, res) => {
   try {
   } catch (error) {
     console.log(error);
@@ -79,4 +79,9 @@ const deleteUserController = async (req, res) => {
   }
 };
 
-export { readUserController, createUser, updateUser, deleteUserController };
+export {
+  readUserController,
+  createUserController,
+  updateUserController,
+  deleteUserController,
+};

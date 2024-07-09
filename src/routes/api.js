@@ -5,11 +5,12 @@ import {
   testApi,
 } from "../controllers/apiController";
 import {
-  createUser,
+  createUserController,
   deleteUserController,
   readUserController,
-  updateUser,
+  updateUserController,
 } from "../controllers/userController";
+import { readGroupController } from "../controllers/groupController";
 
 const router = express.Router();
 
@@ -27,9 +28,12 @@ const initApiRoutes = (app) => {
 
   // CRUD user
   router.get("/user/read", readUserController);
-  router.post("/user/create", createUser);
-  router.put("/user/update", updateUser);
+  router.post("/user/create", createUserController);
+  router.put("/user/update", updateUserController);
   router.delete("/user/delete", deleteUserController);
+
+  // Group
+  router.get("/group/read", readGroupController);
 
   return app.use("/api/v1/", router);
 };

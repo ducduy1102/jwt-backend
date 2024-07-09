@@ -21,7 +21,7 @@ const getAllUser = async () => {
   } catch (error) {
     console.log(error);
     return {
-      message: "Something wrongs with server",
+      message: "Something wrongs with service",
       errorCode: 1,
       data: [],
     };
@@ -66,7 +66,7 @@ const getUserWithPagination = async (page, limit) => {
   } catch (error) {
     console.log(error);
     return {
-      message: "Something wrongs with server",
+      message: "Something wrongs with service",
       errorCode: 1,
       data: [],
     };
@@ -128,7 +128,7 @@ const deleteUser = async (id) => {
   } catch (error) {
     console.log(error);
     return {
-      message: "Something wrongs with server",
+      message: "Something wrongs with service",
       errorCode: 1,
       data: [],
     };
