@@ -14,7 +14,7 @@ const getAllUser = async () => {
       };
     }
     return {
-      message: "Get data success",
+      message: "Get data successfully!",
       errorCode: 0,
       data: users,
     };
@@ -59,7 +59,7 @@ const getUserWithPagination = async (page, limit) => {
 
     // console.log("check dataa", data);
     return {
-      message: "Get data success",
+      message: "Get data successfully!",
       errorCode: 0,
       data: dataPages,
     };
@@ -75,9 +75,12 @@ const getUserWithPagination = async (page, limit) => {
 
 const createNewUser = async (data) => {
   try {
-    await db.User.create({
-      where: {},
-    });
+    await db.User.create(data);
+    return {
+      message: "Create user successfully!",
+      errorCode: 0,
+      data: [],
+    };
   } catch (error) {
     console.log(error);
   }

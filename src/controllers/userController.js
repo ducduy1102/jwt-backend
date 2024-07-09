@@ -2,6 +2,7 @@ import {
   getAllUser,
   getUserWithPagination,
   deleteUser,
+  createNewUser,
 } from "../service/userApiService";
 
 const readUserController = async (req, res) => {
@@ -37,8 +38,15 @@ const readUserController = async (req, res) => {
   }
 };
 
-const createUserController = (req, res) => {
+const createUserController = async (req, res) => {
   try {
+    // Validate
+    let data = await createNewUser(req.body);
+    return res.status(200).json({
+      message: data.message,
+      errorCode: data.errorCode,
+      data: data.data,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
