@@ -114,17 +114,44 @@ const createNewUser = async (data) => {
 
 const updateUser = async (data) => {
   try {
+    if (!data.groupId) {
+      return {
+        message: "Error with empty GroupId",
+        errorCode: 1,
+        data: "group",
+      };
+    }
     let user = await db.User.findOne({
       where: { id: data.id },
     });
     // Not found
     if (!user) {
-      return {};
+      return {
+        message: "User not found",
+        errorCode: 2,
+        data: "",
+      };
     }
     // update
-    user.save({});
+    await user.update({
+      username: data.username,
+      address: data.address,
+      sex: data.sex,
+      groupId: data.groupId,
+    });
+
+    return {
+      message: "Update user successfully!",
+      errorCode: 0,
+      data: "",
+    };
   } catch (error) {
     console.log(error);
+    return {
+      message: "Something wrongs with service",
+      errorCode: 1,
+      data: [],
+    };
   }
 };
 
