@@ -37,12 +37,14 @@ const getUserList = async () => {
     attributes: ["id", "url", "description"],
     include: {
       model: db.Group,
-      where: { id: 1 },
+      where: { id: 4 },
       attributes: ["name", "description"],
     },
     raw: true,
     nest: true,
   });
+
+  // console.log("check roles userService", roles);
 
   let users = [];
   users = await db.User.findAll();
