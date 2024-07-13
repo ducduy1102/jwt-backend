@@ -11,6 +11,7 @@ import {
   updateUserController,
 } from "../controllers/userController";
 import { readGroupController } from "../controllers/groupController";
+import { checkUserJwt, checkUserPermission } from "../middleware/jwtActions";
 
 const router = express.Router();
 
@@ -19,20 +20,20 @@ const router = express.Router();
  * @param {*} app : express app
  */
 
-const testMiddleware = (req, res, next) => {
-  console.log("Calling to middleware");
-  next();
-};
-
 const initApiRoutes = (app) => {
   // path, handler
   // rest API
-  router.get("/test-api", testApi);
+  // router.get("/test-api", testApi);
   router.post("/register", handleRegister);
   router.post("/login", handleLogin);
 
   // CRUD user
-  router.get("/user/read", readUserController);
+  router.get(
+    "/user/read",
+    checkUserJwt,
+    checkUserPermission,
+    readUserController
+  );
   router.post("/user/create", createUserController);
   router.put("/user/update", updateUserController);
   router.delete("/user/delete", deleteUserController);
