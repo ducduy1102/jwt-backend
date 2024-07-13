@@ -19,12 +19,17 @@ const router = express.Router();
  * @param {*} app : express app
  */
 
+const testMiddleware = (req, res, next) => {
+  console.log("Calling to middleware");
+  next();
+};
+
 const initApiRoutes = (app) => {
   // path, handler
   // rest API
   router.get("/test-api", testApi);
   router.post("/register", handleRegister);
-  router.post("/login", handleLogin);
+  router.post("/login", testMiddleware, handleLogin);
 
   // CRUD user
   router.get("/user/read", readUserController);
