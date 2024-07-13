@@ -6,6 +6,7 @@ import initApiRoutes from "./routes/api";
 import "dotenv/config";
 import bodyParser from "body-parser";
 import configCors from "./config/cors";
+import cookieParser from "cookie-parser";
 // import connection from "./config/connectDB";
 
 const app = express();
@@ -23,6 +24,9 @@ configViewEngine(app);
 // config body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// config cookie-parser
+app.use(cookieParser());
 
 // init web routes
 initWebRoutes(app);

@@ -29,7 +29,7 @@ const initApiRoutes = (app) => {
   // rest API
   router.get("/test-api", testApi);
   router.post("/register", handleRegister);
-  router.post("/login", testMiddleware, handleLogin);
+  router.post("/login", handleLogin);
 
   // CRUD user
   router.get("/user/read", readUserController);
