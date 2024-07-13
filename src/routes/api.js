@@ -24,16 +24,14 @@ const initApiRoutes = (app) => {
   // path, handler
   // rest API
   // router.get("/test-api", testApi);
+
+  router.all("*", checkUserJwt, checkUserPermission);
+
   router.post("/register", handleRegister);
   router.post("/login", handleLogin);
 
   // CRUD user
-  router.get(
-    "/user/read",
-    checkUserJwt,
-    checkUserPermission,
-    readUserController
-  );
+  router.get("/user/read", readUserController);
   router.post("/user/create", createUserController);
   router.put("/user/update", updateUserController);
   router.delete("/user/delete", deleteUserController);
