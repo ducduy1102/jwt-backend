@@ -59,9 +59,11 @@ const checkUserPermission = (req, res, next) => {
 
   if (req.user) {
     let email = req.user.email;
-    let roles = req.user.rolesBelongsToGroup;
+    let roles = req.user.groupWithRoles;
     let currentUrl = req.path;
-    // console.log("currentUrl", currentUrl);
+
+    console.log("Check roles", roles);
+
     if (!roles || roles.length === 0) {
       return res.status(403).json({
         errorCode: -1,
@@ -70,8 +72,7 @@ const checkUserPermission = (req, res, next) => {
       });
     }
 
-    let canAccess = roles.some((item) => item.url === currentUrl);
-    // let canAccess = roles.some((item) => item.url);
+    let canAccess = roles.some((item) => item.Roles.url === currentUrl);
 
     if (canAccess) {
       next();

@@ -52,10 +52,12 @@ const handleLogin = async (req, res) => {
   try {
     let data = await handleUserLogin(req.body);
     // set cookies
-    res.cookie("jwt", data.data.access_token, {
-      httpOnly: true,
-      maxAge: 60 * 60 * 1000,
-    });
+    if (data?.data?.access_token) {
+      res.cookie("jwt", data.data.access_token, {
+        httpOnly: true,
+        maxAge: 60 * 60 * 1000,
+      });
+    }
 
     return res.status(200).json({
       message: data.message,
