@@ -7,7 +7,9 @@ const createJWT = (payload) => {
   let key = process.env.JWT_SECRET;
   let token = null;
   try {
-    token = jwt.sign(payload, key);
+    token = jwt.sign(payload, key, {
+      expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -27,11 +29,24 @@ const verifyToken = (token) => {
   return decoded;
 };
 
+const extractToken = (req) => {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.split(" ")[0] === "Bearer"
+  ) {
+    return req.headers.authorization.split(" ")[1];
+  }
+  return null;
+};
+
 const checkUserJwt = (req, res, next) => {
   if (nonSecurePaths.includes(req.path)) return next();
+
   let cookies = req.cookies;
-  if (cookies && cookies.jwt) {
-    let token = cookies.jwt;
+  const tokenFromHeader = extractToken(req);
+
+  if ((cookies && cookies.jwt) || tokenFromHeader) {
+    let token = cookies && cookies.jwt ? cookies.jwt : tokenFromHeader;
     let decoded = verifyToken(token);
     if (!decoded) {
       return res.status(401).json({
@@ -40,10 +55,9 @@ const checkUserJwt = (req, res, next) => {
         message: "Not authenticated the user",
       });
     }
-
     req.user = decoded;
+    req.token = token;
     next();
-    // console.log("My jwt: ", cookies.jwt);
   } else {
     return res.status(401).json({
       errorCode: -1,
@@ -51,18 +65,16 @@ const checkUserJwt = (req, res, next) => {
       message: "Not authenticated the user",
     });
   }
-  console.log(cookies);
 };
 
 const checkUserPermission = (req, res, next) => {
-  if (nonSecurePaths.includes(req.path)) return next();
+  if (nonSecurePaths.includes(req.path) || req.path === "/account")
+    return next();
 
   if (req.user) {
     let email = req.user.email;
     let roles = req.user.groupWithRoles;
     let currentUrl = req.path;
-
-    console.log("Check roles", roles);
 
     if (!roles || roles.length === 0) {
       return res.status(403).json({

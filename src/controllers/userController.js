@@ -95,9 +95,24 @@ const deleteUserController = async (req, res) => {
   }
 };
 
+const getUserAccount = async (req, res) => {
+  console.log("check user: ", req.user);
+  return res.status(200).json({
+    message: "Ok!",
+    errorCode: 0,
+    data: {
+      access_token: req.token,
+      email: req.user.email,
+      username: req.user.username,
+      groupWithRoles: req.user.groupWithRoles,
+    },
+  });
+};
+
 export {
   readUserController,
   createUserController,
   updateUserController,
   deleteUserController,
+  getUserAccount,
 };
