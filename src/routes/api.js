@@ -7,6 +7,7 @@ import {
 import {
   createUserController,
   deleteUserController,
+  getUserAccount,
   readUserController,
   updateUserController,
 } from "../controllers/userController";
@@ -29,6 +30,7 @@ const initApiRoutes = (app) => {
 
   router.post("/register", handleRegister);
   router.post("/login", handleLogin);
+  router.get("/account", getUserAccount);
 
   // CRUD user
   router.get("/user/read", readUserController);

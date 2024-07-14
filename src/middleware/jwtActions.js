@@ -41,6 +41,7 @@ const checkUserJwt = (req, res, next) => {
       });
     }
 
+    req.token = token;
     req.user = decoded;
     next();
     // console.log("My jwt: ", cookies.jwt);
@@ -55,14 +56,15 @@ const checkUserJwt = (req, res, next) => {
 };
 
 const checkUserPermission = (req, res, next) => {
-  if (nonSecurePaths.includes(req.path)) return next();
+  if (nonSecurePaths.includes(req.path) || req.path === "/account")
+    return next();
 
   if (req.user) {
     let email = req.user.email;
     let roles = req.user.groupWithRoles;
     let currentUrl = req.path;
 
-    console.log("Check roles", roles);
+    // console.log("Check roles", roles);
 
     if (!roles || roles.length === 0) {
       return res.status(403).json({
