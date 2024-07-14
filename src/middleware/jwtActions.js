@@ -7,7 +7,9 @@ const createJWT = (payload) => {
   let key = process.env.JWT_SECRET;
   let token = null;
   try {
-    token = jwt.sign(payload, key);
+    token = jwt.sign(payload, key, {
+      expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -44,7 +46,6 @@ const checkUserJwt = (req, res, next) => {
     req.token = token;
     req.user = decoded;
     next();
-    // console.log("My jwt: ", cookies.jwt);
   } else {
     return res.status(401).json({
       errorCode: -1,
@@ -63,8 +64,6 @@ const checkUserPermission = (req, res, next) => {
     let email = req.user.email;
     let roles = req.user.groupWithRoles;
     let currentUrl = req.path;
-
-    // console.log("Check roles", roles);
 
     if (!roles || roles.length === 0) {
       return res.status(403).json({
