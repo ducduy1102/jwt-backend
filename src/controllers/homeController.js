@@ -12,6 +12,8 @@ const handleHelloWord = (req, res) => {
 
 const handleUserPage = async (req, res) => {
   // model => get data from database
+  console.log("cookies", req.cookies);
+
   let userList = await getUserList();
   // console.log("Check user list", userList);
   return res.render("user.ejs", { userList });

@@ -1,7 +1,5 @@
 import bcrypt from "bcryptjs";
 import db from "../models/index";
-import { where } from "sequelize/lib/sequelize";
-import { raw } from "body-parser";
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -39,15 +37,14 @@ const getUserList = async () => {
     attributes: ["id", "url", "description"],
     include: {
       model: db.Group,
-      where: { id: 1 },
+      where: { id: 4 },
       attributes: ["name", "description"],
     },
     raw: true,
     nest: true,
   });
 
-  console.log("Check new user: ", newUser);
-  console.log("Check new roles: ", roles);
+  // console.log("check roles userService", roles);
 
   let users = [];
   users = await db.User.findAll();
