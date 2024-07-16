@@ -2,7 +2,7 @@ import express from "express";
 import {
   handleRegister,
   handleLogin,
-  testApi,
+  handleLogout,
 } from "../controllers/apiController";
 import {
   createUserController,
@@ -30,7 +30,7 @@ const initApiRoutes = (app) => {
 
   router.post("/register", handleRegister);
   router.post("/login", handleLogin);
-  router.get("/account", getUserAccount);
+  router.post("/logout", handleLogout), router.get("/account", getUserAccount);
 
   // CRUD user
   router.get("/user/read", readUserController);
