@@ -13,6 +13,12 @@ import {
 } from "../controllers/userController";
 import { readGroupController } from "../controllers/groupController";
 import { checkUserJwt, checkUserPermission } from "../middleware/jwtActions";
+import {
+  createRoleController,
+  deleteRoleController,
+  readRoleController,
+  updateRoleController,
+} from "../controllers/roleController";
 
 const router = express.Router();
 
@@ -32,13 +38,19 @@ const initApiRoutes = (app) => {
   router.post("/login", handleLogin);
   router.post("/logout", handleLogout), router.get("/account", getUserAccount);
 
-  // CRUD user
+  // CRUD user routes
   router.get("/user/read", readUserController);
   router.post("/user/create", createUserController);
   router.put("/user/update", updateUserController);
   router.delete("/user/delete", deleteUserController);
 
-  // Group
+  // roles routes
+  router.get("/role/read", readRoleController);
+  router.post("/role/create", createRoleController);
+  router.put("/role/update", updateRoleController);
+  router.delete("/role/delete", deleteRoleController);
+
+  // Group routes
   router.get("/group/read", readGroupController);
 
   return app.use("/api/v1/", router);
