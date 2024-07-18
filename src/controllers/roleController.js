@@ -1,29 +1,19 @@
-import { createNewRole } from "../service/roleApiService";
-import { getAllUser, deleteUser, updateUser } from "../service/userApiService";
+import {
+  createNewRole,
+  deleteRole,
+  getAllRoles,
+} from "../service/roleApiService";
+import { updateUser } from "../service/userApiService";
 
 const readRoleController = async (req, res) => {
   try {
-    if (req.query.page & req.query.limit) {
-      let page = req.query.page;
-      let limit = req.query.limit;
+    let data = await getAllRoles();
 
-      // Thêm "+" convert -> Number
-      let data = await getUserWithPagination(+page, +limit);
-      // console.log(page, limit);
-      return res.status(200).json({
-        message: data.message,
-        errorCode: data.errorCode,
-        data: data.data,
-      });
-    } else {
-      let data = await getAllUser();
-
-      return res.status(200).json({
-        message: data.message,
-        errorCode: data.errorCode,
-        data: data.data,
-      });
-    }
+    return res.status(200).json({
+      message: data.message,
+      errorCode: data.errorCode,
+      data: data.data,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -52,6 +42,7 @@ const createRoleController = async (req, res) => {
   }
 };
 
+// todo
 const updateRoleController = async (req, res) => {
   try {
     // Validate
@@ -73,7 +64,7 @@ const updateRoleController = async (req, res) => {
 
 const deleteRoleController = async (req, res) => {
   try {
-    let data = await deleteUser(req.body.id);
+    let data = await deleteRole(req.body.id);
     return res.status(200).json({
       message: data.message,
       errorCode: data.errorCode,

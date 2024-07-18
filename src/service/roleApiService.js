@@ -36,4 +36,47 @@ const createNewRole = async (roles) => {
   }
 };
 
-export { createNewRole };
+const getAllRoles = async () => {
+  try {
+    let data = await db.Role.findAll({
+      order: [["id", "ASC"]],
+    });
+    return {
+      message: "Get all roles successfully!",
+      errorCode: 0,
+      data: data,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      message: "Something wrongs with service",
+      errorCode: 1,
+      data: [],
+    };
+  }
+};
+
+const deleteRole = async (id) => {
+  try {
+    let role = await db.Role.findOne({
+      where: { id: id },
+    });
+    if (role) {
+      await role.destroy();
+    }
+    return {
+      message: "Delete role successfully!",
+      errorCode: 0,
+      data: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      message: "Something wrongs with service",
+      errorCode: 1,
+      data: [],
+    };
+  }
+};
+
+export { createNewRole, deleteRole, getAllRoles };
