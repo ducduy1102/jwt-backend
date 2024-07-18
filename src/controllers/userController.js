@@ -96,7 +96,7 @@ const deleteUserController = async (req, res) => {
 };
 
 const getUserAccount = async (req, res) => {
-  console.log("check user: ", req.user);
+  // console.log("check user: ", req.user);
   return res.status(200).json({
     message: "Ok!",
     errorCode: 0,
