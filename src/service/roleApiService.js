@@ -116,4 +116,32 @@ const getRoleByGroup = async (id) => {
   }
 };
 
-export { createNewRole, deleteRole, getAllRoles, getRoleByGroup };
+const assignRoleToGroup = async (data) => {
+  try {
+    // data = {groupId: 4, groupRoles: [{groupId:4, roleId: 1}, {groupId:4, roleId: 2}, {},..] }
+
+    await db.Group_Role.destroy({ where: { groupId: +data.groupId } });
+    await db.Group_Role.bulkCreate(data.groupRoles);
+
+    return {
+      message: "Assign role to group successfully!",
+      errorCode: 0,
+      data: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      message: "Something wrongs with service",
+      errorCode: 1,
+      data: [],
+    };
+  }
+};
+
+export {
+  createNewRole,
+  deleteRole,
+  getAllRoles,
+  getRoleByGroup,
+  assignRoleToGroup,
+};

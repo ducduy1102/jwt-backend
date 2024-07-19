@@ -3,6 +3,7 @@ import {
   deleteRole,
   getAllRoles,
   getRoleByGroup,
+  assignRoleToGroup,
 } from "../service/roleApiService";
 
 const readRoleController = async (req, res) => {
@@ -99,10 +100,29 @@ const getRoleByGroupController = async (req, res) => {
   }
 };
 
+const assignRoleToGroupController = async (req, res) => {
+  try {
+    let data = await assignRoleToGroup(req.body.data);
+    return res.status(200).json({
+      message: data.message,
+      errorCode: data.errorCode,
+      data: data.data,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "error from server",
+      errorCode: -1,
+      data: "",
+    });
+  }
+};
+
 export {
   readRoleController,
   createRoleController,
   // updateRoleController,
   deleteRoleController,
   getRoleByGroupController,
+  assignRoleToGroupController,
 };
