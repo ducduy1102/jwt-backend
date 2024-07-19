@@ -17,7 +17,9 @@ import {
   createRoleController,
   deleteRoleController,
   readRoleController,
-  updateRoleController,
+  // updateRoleController,
+  getRoleByGroupController,
+  assignRoleToGroupController,
 } from "../controllers/roleController";
 
 const router = express.Router();
@@ -47,8 +49,10 @@ const initApiRoutes = (app) => {
   // roles routes
   router.get("/role/read", readRoleController);
   router.post("/role/create", createRoleController);
-  router.put("/role/update", updateRoleController);
+  // router.put("/role/update", updateRoleController);
   router.delete("/role/delete", deleteRoleController);
+  router.get("/role/by-group/:groupId", getRoleByGroupController);
+  router.post("/role/assign-to-group", assignRoleToGroupController);
 
   // Group routes
   router.get("/group/read", readGroupController);
