@@ -8,7 +8,7 @@ import {
 
 const readUserController = async (req, res) => {
   try {
-    if (req.query.page & req.query.limit) {
+    if (req.query.page && req.query.limit) {
       let page = req.query.page;
       let limit = req.query.limit;
 
